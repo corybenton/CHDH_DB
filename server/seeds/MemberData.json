@@ -1,0 +1,57 @@
+[
+    {
+        "memberName": [
+            "Cory Benton",
+            "Celia Benton"
+        ],
+        "email": [
+            "corybenton@gmail.com",
+            "celiabenton@gmail.com"
+        ],
+        "memberYears": [
+            2023,
+            2022,
+            2021,
+            2020,
+            2019
+        ],
+        "address": "120 Temple Lane",
+        "numberKids": 3,
+        "payer": false
+    },
+    {
+        "memberName": "John Doe",
+        "email": [
+            "johndoe@gmail.com",
+            "johndoe@business.com"
+        ],
+        "memberYears": 2022,
+        "address": "1 Unknown Cir",
+        "numberKids": 1
+    },
+    {
+        "memberName": [
+            "Ellen Knox",
+            "Mike Carpenter"
+        ],
+        "email": "mikeandellen@gmail.com",
+        "memberYears": [
+            2023,
+            2022, 
+            2021
+        ],
+        "address": "45 Missing Dr",
+        "numberKids": 4
+    },
+    {
+        "memberName": "Lisa Mulligain",
+        "email": "takeamulligan@yahoo.com",
+        "memberYears": [
+            2022, 
+            2021,
+            2020
+        ],
+        "address": "721 Private Rd",
+        "numberKids": 2
+    }
+]
