@@ -23,12 +23,15 @@ const memberSchema = new mongoose.Schema(
             unique: true,
             trim: true,
         },
-        numberKids: {
+        agesOfKids: [{
             type: Number,
-        },
+        }],
         payer: {
             type: Boolean,
             default: true,
+        },
+        notes: {
+            type: String,
         }
     }
 )
