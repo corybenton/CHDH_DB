@@ -10,7 +10,6 @@ import './app.css';
 function App() {
     return (
         <div>
-            <Header />
             <Body />
             <Footer />
         </div>
