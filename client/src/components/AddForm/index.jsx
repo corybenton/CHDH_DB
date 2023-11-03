@@ -18,9 +18,15 @@ const AddForm = () => {
     //const [addMember, { error }] = useMutation(ADD_MEMBER);
 
     const handleInputChange = (e) => {
-        const { inputType, inputValue } = e.target;
+        const inputType = e.target.name;
+        let inputValue;
+        if (inputType === 'payer') {
+            inputValue = e.target.checked;
+        } else {
+            inputValue = e.target.value;
+        };
 
-        setFormState({ ...formState, [inputType]: inputValue })
+        setFormState({ ...formState, [inputType]: inputValue });
     };
 
     const handleSubmit = async (e) => {
@@ -94,6 +100,7 @@ const AddForm = () => {
                     name='payer'
                     onChange={handleInputChange}
                     type='checkbox'
+                    defaultChecked='true'
                 />
                 <label htmlFor='notes'>Notes:</label>
                 <input
@@ -103,6 +110,7 @@ const AddForm = () => {
                     type='text'
                     placeholder='Additional info'
                 />
+                <button onClick={handleSubmit} type='submit'>Submit</button>
             </form>
         </div>
     );
