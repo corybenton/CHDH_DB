@@ -8,7 +8,7 @@ export default function DeleteMembers() {
             <p>Remove members from database in bulk or singly.
             </p>
             <DeleteForm />
-            <p>Member\(s\) deleted.</p>
+            <p>Member(s) deleted.</p>
             <List />
         </div>
     );
