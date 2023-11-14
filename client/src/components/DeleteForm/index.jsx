@@ -30,8 +30,8 @@ const DeleteForm = () => {
                 variables: { dropdownValue, boxValue },
             })
 
-            setDropdownValue = '';
-            setBoxValue = '';
+            setDropdownValue('');
+            setBoxValue('');
         } catch (err) {
             console.error(err);
         }

@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { useMutation } from "@apollo/client";
+import { useMutation, useQuery, useLazyQuery } from "@apollo/client";
 
-import List from "../List";
-// import { MODIFY_MEMBER } from '../../utilities/mutations';
+import SecondStageE from './secondstagee';
+import { QUERY_SINGLE_MEMBER_BY_EMAIL } from '../../../utilities/queries';
 
 const ModifyForm = () => {
     const [searchState, setSearchState] = useState({
-        search: '',
+        search: 'default',
         criteria: '',
     });
 
@@ -20,73 +20,32 @@ const ModifyForm = () => {
         notes: '',
     });
 
-    // const [findMember, { error }] = useMutation(FIND_MEMBER);
-    // const [modifyMember, { errror }] = useMutation(MODIFY_MEMBER);
+    const [searchByEmail, { data: dataE, error }] = useLazyQuery(QUERY_SINGLE_MEMBER_BY_EMAIL);
+
 
     const handleSearchChange = (e) => {
-        const inputType = e.target.name;
-        const inputValue = e.target.value;
+        const { name, value } = e.target;
 
-        setSearchState({ searchState, [inputType]: inputValue });
+        setSearchState({ ...searchState, [name]: value });
     }
 
-    const setupChange = (data) => {
-        const firstForm = document.querySelector('form');
-
-        const secondForm = document.createElement('form');
-        secondForm.onSubmit = { handleSecondSubmit };
-        secondForm.id = 'second';
-
-        const labelNames = ['Name', 'Email', 'Member Years', 'Address', "Kids's Ages", 'Payer', 'Notes']
-
-        for (let i = 0; i < 7; i++) {
-            const label = document.createElement('label');
-            label.htmlFor = data[i].name;
-            label.innerHTML = labelNames[i];
-
-            const dataValue = document.createElement('input');
-            dataValue.value = data[i].value;
-            dataValue.name = data[i].name;
-            dataValue.type = 'text';
-
-            together = label.append(dataValue);
-            secondForm.appendChild(together);
-        }
-
-        const button = document.createElement('button');
-        button.type = 'submit';
-        button.innerHTML = 'Submit';
-        secondForm.appendChild(button);
-
-        firstForm.append(secondForm);
-
+    const handleChangeChange = (e) => {
+        
     }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+        
         try {
-            const toBeChanged = findMember({
-                variables: { searchState },
-            });
-
-            setupChange(toBeChanged);
-
-            setSearchState({
-                search: '',
-                criteria: '',
-            });
+            if (searchState.search === 'email' && searchState.criteria !== '') {
+                searchByEmail({ variables: { email: searchState.criteria }});
+                // console.log(a);
+                // setMemberState({ ...memberState, ['memberName']: searchData.memberByEmail.memberName})
+            }
+            console.log(memberState.memberName);
         } catch (err) {
             console.error(err);
         }
-    }
-
-    const handleSecondSubmit = (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-
-
-
     }
 
     return (
@@ -94,6 +53,7 @@ const ModifyForm = () => {
             <form onSubmit={handleSubmit}>
                 <label htmlFor='search'>Search criterion:</label>
                 <select
+                    value={searchState.search}
                     name='search'
                     onChange={handleSearchChange}>
                     <option value='default'></option>
@@ -112,6 +72,14 @@ const ModifyForm = () => {
 
                 <button type='submit'>Submit</button>
             </form>
+            <div>
+            <input 
+                value={dataE?.memberByEmail?.memberName}
+                name='memberName'
+                onChange={handleChangeChange}
+                type='text'
+                />
+            </div>
         </div>
     )
 };

@@ -2,9 +2,12 @@ const { Members } = require('../models');
 
 const resolvers = {
     Query: {
-        members: async => {
-            return Members.find();
+        memberByEmail: async (parent, { email }) => {
+            return Members.findOne({ email: email });
         },
+        memberByName: async (parent, { memberName }) => {
+            return Members.findOne({ memberName: memberName });
+        }
     }
 }
 
