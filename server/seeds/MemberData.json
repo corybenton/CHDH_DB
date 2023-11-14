@@ -16,7 +16,7 @@
             2019
         ],
         "address": "120 Temple Lane",
-        "numberKids": 3,
+        "agesOfKids": [7, 11, 13],
         "payer": false
     },
     {
@@ -27,7 +27,7 @@
         ],
         "memberYears": 2022,
         "address": "1 Unknown Cir",
-        "numberKids": 1
+        "agesOfKids": 10
     },
     {
         "memberName": [
@@ -41,7 +41,7 @@
             2021
         ],
         "address": "45 Missing Dr",
-        "numberKids": 4
+        "agesOfKids": [4, 6, 8, 11]
     },
     {
         "memberName": "Lisa Mulligain",
@@ -52,6 +52,6 @@
             2020
         ],
         "address": "721 Private Rd",
-        "numberKids": 2
+        "agesOfKids": [2, 4, 9]
     }
 ]
