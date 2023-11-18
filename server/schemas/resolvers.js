@@ -2,11 +2,16 @@ const { Members } = require('../models');
 
 const resolvers = {
     Query: {
-        memberByEmail: async (parent, { email }) => {
-            return Members.findOne({ email: email });
-        },
-        memberByName: async (parent, { memberName }) => {
-            return Members.findOne({ memberName: memberName });
+        searchMember: async (parent, { searchInfo }) => {
+            const [type, value] = searchInfo;
+            return Members.findOne({ [type]: value })
+        }
+    },
+    Mutation: {
+        modifyMember: async (parent, { searchInfo, memberInfo }) => {
+            const [type, value] = searchInfo;
+        
+            return Members.findOneAndReplace({ [type]: value}, { ...memberInfo }, { new: true });
         }
     }
 }

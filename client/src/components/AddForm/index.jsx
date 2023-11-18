@@ -18,6 +18,8 @@ const AddForm = () => {
     //const [addMember, { error }] = useMutation(ADD_MEMBER);
 
     const handleInputChange = (e) => {
+        e.preventDefault();
+        
         const inputType = e.target.name;
         let inputValue;
         if (inputType === 'payer') {

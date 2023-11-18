@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { useMutation, useQuery, useLazyQuery } from "@apollo/client";
+import { useMutation, useLazyQuery } from "@apollo/client";
 
-import SecondStageE from './secondstagee';
-import { QUERY_SINGLE_MEMBER_BY_EMAIL } from '../../../utilities/queries';
+import { QUERY_SINGLE_MEMBER } from '../../../utilities/queries';
+import { MUTATE_SINGLE_MEMBER } from '../../../utilities/mutations'
 
 const ModifyForm = () => {
     const [searchState, setSearchState] = useState({
@@ -13,15 +13,15 @@ const ModifyForm = () => {
     const [memberState, setMemberState] = useState({
         memberName: '',
         email: '',
-        memberYears: '',
+        memberYears: 0,
         address: '',
-        agesOfKids: '',
-        payer: '',
+        agesOfKids: 0,
+        payer: false,
         notes: '',
     });
 
-    const [searchByEmail, { data: dataE, error }] = useLazyQuery(QUERY_SINGLE_MEMBER_BY_EMAIL);
-
+    const [memberSearch, { data, error }] = useLazyQuery(QUERY_SINGLE_MEMBER);
+    const [dataChange, { data: data2, error: error2 }] = useMutation(MUTATE_SINGLE_MEMBER);
 
     const handleSearchChange = (e) => {
         const { name, value } = e.target;
@@ -30,19 +30,38 @@ const ModifyForm = () => {
     }
 
     const handleChangeChange = (e) => {
-        
+        e.preventDefault();
+
+        const { name, value } = e.target;
+        setMemberState({ ...memberState, [name]: value });
+
+        console.log(memberState);
     }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
         try {
-            if (searchState.search === 'email' && searchState.criteria !== '') {
-                searchByEmail({ variables: { email: searchState.criteria }});
-                // console.log(a);
-                // setMemberState({ ...memberState, ['memberName']: searchData.memberByEmail.memberName})
+            let promise;
+            if (searchState.search && searchState.criteria) {
+                promise = new Promise((resolve) => {resolve(memberSearch({ 
+                    variables: { searchInfo: [searchState.search, searchState.criteria] }}))});
             }
-            console.log(memberState.memberName);
+            let result = await promise;
+
+            setMemberState(result.data.searchMember);
+
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
+    const handleSecondSubmit = async (e) => {
+        e.preventDefault();
+        try{
+            const promise = new Promise((resolve) => {resolve(dataChange({ variables: 
+                { searchInfo: [searchState.search, searchState.criteria], memberInfo: memberState}}))});
+            let result = await promise;
+            console.log(result);
         } catch (err) {
             console.error(err);
         }
@@ -72,13 +91,61 @@ const ModifyForm = () => {
 
                 <button type='submit'>Submit</button>
             </form>
-            <div>
-            <input 
-                value={dataE?.memberByEmail?.memberName}
-                name='memberName'
-                onChange={handleChangeChange}
-                type='text'
+            <form onSubmit={handleSecondSubmit}>
+                <input
+                    value={memberState?.memberName || ''}
+                    name='memberName'
+                    onChange={handleChangeChange}
+                    type='text'
                 />
+                <input
+                    value={memberState?.email || ''}
+                    name='email'
+                    onChange={handleChangeChange}
+                    type='text'
+                />
+                <input
+                    value={memberState?.memberYears || ''}
+                    name='memberYears'
+                    onChange={handleChangeChange}
+                    type='text'
+                />
+                <input
+                    value={memberState?.address || ''}
+                    name='address'
+                    onChange={handleChangeChange}
+                    type='text'
+                />
+
+                <input
+                    value={memberState?.agesOfKids || ''}
+                    name='agesOfKids'
+                    onChange={handleChangeChange}
+                    type='text'
+                />
+                <input
+                    value={memberState?.payer || ''}
+                    name='payer'
+                    onChange={handleChangeChange}
+                    type='text'
+                />
+                <input
+                    value={memberState?.notes || ''}
+                    name='notes'
+                    onChange={handleChangeChange}
+                    type='text'
+                />
+                <button type='submit'>Submit</button>
+            </form>
+            <div>
+            {data2 ? (
+                <div>
+                <p>Updated member</p>
+                <p>{data2?.modifyMember?.memberName}</p>
+                </div>
+            ) : (
+                <div></div>
+            )}
             </div>
         </div>
     )
