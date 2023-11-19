@@ -20,6 +20,8 @@ const ModifyForm = () => {
         notes: '',
     });
 
+    const [tempState, setTempState] = useState('');
+
     const [memberSearch, { data, error }] = useLazyQuery(QUERY_SINGLE_MEMBER);
     const [dataChange, { data: data2, error: error2 }] = useMutation(MUTATE_SINGLE_MEMBER);
 
@@ -32,10 +34,25 @@ const ModifyForm = () => {
     const handleChangeChange = (e) => {
         e.preventDefault();
 
-        const { name, value } = e.target;
-        setMemberState({ ...memberState, [name]: value });
+        const { value } = e.target;
 
-        console.log(memberState);
+        setTempState(value);
+    }
+
+    const handleChangeSet = (e) => {
+        e.preventDefault();
+
+        let toChange = e.target.name;
+        toChange = memberState[toChange];
+
+        let dataArray = [];
+        for (let i = 0; i < toChange.length; i++) {
+            dataArray.push(toChange[i]);
+        }
+        dataArray.push(tempState);
+        setMemberState(memberState => ({ ...memberState, [e.target.name]: dataArray}));
+        e.target.value = '';
+
     }
 
     const handleSubmit = async (e) => {
@@ -91,13 +108,26 @@ const ModifyForm = () => {
 
                 <button type='submit'>Submit</button>
             </form>
+
             <form onSubmit={handleSecondSubmit}>
+                {memberState?.memberName ? (
+                   memberState.memberName.map((names, index) => ( 
                 <input
-                    value={memberState?.memberName || ''}
+                    key={index}
+                    value={names || ''}
                     name='memberName'
                     onChange={handleChangeChange}
+                    onBlur={handleChangeSet}
                     type='text'
                 />
+                    ))
+                    ) : ( <div></div>) }
+                    <input 
+                        name='memberName'
+                        onChange={handleChangeChange}
+                        onBlur={handleChangeSet}
+                        type='text'
+                    />
                 <input
                     value={memberState?.email || ''}
                     name='email'
