@@ -8,8 +8,6 @@ export default function ModifyMembers() {
             <p>Modify any member data, searching by member name or email.
             </p>
             <ModifyForm />
-            <p>Updated member information.</p>
-            <List />
         </div>
     );
 };
