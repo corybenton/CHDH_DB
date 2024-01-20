@@ -61,20 +61,23 @@ const ModifyForm = () => {
         e.preventDefault();
 
         const toChange = e.target.name;
-        if (toChange !== 'address' && toChange !== 'notes') {
-            const statePlace = memberState[toChange];
-            let dataArray = [];
-            for (let i = 0; i < statePlace.length; i++) {
-                dataArray.push(statePlace[i]);
-            }
-            if (toChange === 'memberYears' || toChange === 'agesOfKids') {
-                dataArray.push(parseInt(tempState));
-            } else {
-                dataArray.push(tempState);
-            }
-            setMemberState(memberState => ({ ...memberState, [toChange]: dataArray }));
-            e.target.value = '';
+        const statePlace = memberState[toChange];
+        let dataArray = [];
+        
+        // set dataArray = appropriate array in memberState
+        for (let i = 0; i < statePlace.length; i++) {
+            dataArray.push(statePlace[i]);
         }
+
+        // add new value to end of above array
+        if (toChange === 'memberYears' || toChange === 'agesOfKids') {
+            dataArray.push(parseInt(tempState));
+        } else {
+            dataArray.push(tempState);
+        }
+        setMemberState(memberState => ({ ...memberState, [toChange]: dataArray }));
+        e.target.value = '';
+
     }
 
     const handleDelete = (e) => {
@@ -185,7 +188,8 @@ const ModifyForm = () => {
                             name='memberName'
                             key={'mnb'}
                             onClick={handleDelete}>
-                            X</button>
+                            X
+                            </button>
                     ])),
                     <input
                         key='mn'
@@ -261,7 +265,6 @@ const ModifyForm = () => {
                         value={memberState?.address || ''}
                         name='address'
                         onChange={handleChangeChange}
-                        onBlur={handleChangeSet}
                         type='text'
                     />,
                     <br key='br4'></br>,
@@ -292,8 +295,8 @@ const ModifyForm = () => {
                         onChange={handleChangeChange}
                         onBlur={handleChangeSet}
                         type='number'
-                        min='1'
-                        max='18'
+                        min={1}
+                        max={18}
                     />,
                     <br key='br5'></br>,
 
@@ -305,14 +308,13 @@ const ModifyForm = () => {
                         onChange={handleBoxCheck}
                         type='checkbox'
                     />,
-                    
+
                     <label key='ln' htmlFor="notes">Notes: </label>,
                     <input
                         key='n'
                         value={memberState?.notes || ''}
                         name='notes'
                         onChange={handleChangeChange}
-                        onBlur={handleChangeSet}
                         type='text'
                     />,
 
@@ -324,7 +326,7 @@ const ModifyForm = () => {
                 {data ? (
                     <div>
                         <h4>Updated member</h4>
-                        <span>Member Name(s): &ensp;</span>
+                        <span>Member name(s): &ensp;</span>
                         {data.modifyMember.memberName.map((names, index) => (
                             <span key={index}>{names} &ensp;</span>
                         ))}
@@ -334,7 +336,7 @@ const ModifyForm = () => {
                             <span key={index}>{email} &ensp;</span>
                         ))}
                         <br></br>
-                        <span>Member In: &emsp;</span>
+                        <span>Member in: &emsp;</span>
                         {data.modifyMember.memberYears.map((years, index) => (
                             <span key={index}>{years} &emsp;</span>
                         ))}

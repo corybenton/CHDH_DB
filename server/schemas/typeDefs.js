@@ -25,6 +25,7 @@ const typeDefs = `
 
     type Mutation {
         modifyMember(searchInfo: [String]!, memberInfo: MemberInput!): Member
+        createMember(memberInfo: MemberInput!): Member
     }
 `;
 
