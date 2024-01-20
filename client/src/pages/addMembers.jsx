@@ -7,8 +7,6 @@ export default function AddMembers() {
             <h2>Add Members</h2>
             <p>Add new members to database.</p>
             <AddForm />
-            <p>New member created.</p>
-            <List />
         </div>
     );
 };

@@ -12,6 +12,9 @@ const resolvers = {
             const [type, value] = searchInfo;
         
             return Members.findOneAndReplace({ [type]: value}, memberInfo , { new: true });
+        },
+        createMember: async (parent, { memberInfo }) => {
+            return Members.create(memberInfo);
         }
     }
 }

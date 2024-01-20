@@ -13,3 +13,17 @@ export const MUTATE_SINGLE_MEMBER = gql`
         }
     }
 `
+
+export const ADD_MEMBER = gql`
+    mutation addOne($memberInfo: MemberInput!) {
+        createMember(memberInfo: $memberInfo) {
+            memberName
+            email
+            memberYears
+            address
+            agesOfKids
+            payer
+            notes
+        }
+    }
+`
